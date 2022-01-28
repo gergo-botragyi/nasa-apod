@@ -1,13 +1,14 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { runInNewContext } from 'vm'
+import response from "../../fetch";
 
-type Data = {
-  name: string
-}
-
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<any>
 ) {
-  res.status(200).json({ name: 'John Doe' })
+  if(req.method != "GET")
+  {res.status(404);return}
+  const {date} = req.query;
+  res.status(200).json({ ... (await response())})
 }
