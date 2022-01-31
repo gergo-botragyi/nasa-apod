@@ -10,5 +10,5 @@ export default async function handler(
   if(req.method != "GET")
   {res.status(404);return}
   const {date} = req.query;
-  res.status(200).json({ ... (await response())})
+  res.status(200).json({ ... (await response(typeof date == "string" ? date:date[0]))})
 }
