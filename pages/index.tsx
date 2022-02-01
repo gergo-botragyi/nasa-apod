@@ -10,23 +10,22 @@ const Home = () => {
   const [asd, setAsd] = useState("");
   const [resultPic, setResultPic] = useState("")
   const input = useRef<HTMLInputElement>(null);
-  const getapod = async () =>{
-    const response = await fetch(`/api/hello?date=${input.current?.value}`);    
+  const getapod = async (randpic:boolean) =>{
+    const response = await fetch(`/api/hello?date=${randpic ? "rand": input.current?.value}`);    
     const data = await response.json();
-    console.log(data);
     const {result,error} = data;
     if(error!==undefined)
     {alert(`ERROR:${error}`);}
-    setAsd(JSON.stringify(result));
-    //setResultPic(result[0].url)    
-    alert(resultPic);
+    setAsd(result.constructor === Array ? result[0].explanation : result.explanation);    
+    setResultPic(result.constructor === Array ? result[0].url : result.url);
+    console.log(result.constructor === Array ? result[0].url : result.url);
   }
   return (
     <div>
       <p>{asd}</p>
-      <button onClick={getapod}>Get random picture</button>
+      <button onClick={()=>{getapod(true)}}>Get random picture</button>
       <input type="text" placeholder='YYYY-MM-DD' ref={input}/>
-      <button onClick={getapod}>Get picture</button>
+      <button onClick={()=>{getapod(false)}}>Get picture</button>
       <img src={resultPic} alt="" />
     </div>
   )
