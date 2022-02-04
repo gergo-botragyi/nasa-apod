@@ -9,6 +9,7 @@ import styles from '../styles/Home.module.css'
 const Home = () => {
   const [about, setAbout] = useState("");
   const [resultPic, setResultPic] = useState("")
+  const [resultDate, setResultDate] = useState("");
   const input = useRef<HTMLInputElement>(null);
   const [spin, setSpin] = useState(false)
   const getapod = async (randpic:boolean) =>{
@@ -20,6 +21,7 @@ const Home = () => {
     {alert(`ERROR:${error}`);}
     setAbout(result.constructor === Array ? result[0].explanation : result.explanation);    
     setResultPic(result.constructor === Array ? result[0].url : result.url);
+    setResultDate(result.constructor === Array ? result[0].date : result.date)
     setSpin(false);
   }
   return (
@@ -34,8 +36,9 @@ const Home = () => {
         <div className='animate-spin w-8 h-8 border-4 rounded-xl text-black m-2'></div>
         <span className='text-zinc-200'>Loading...</span>
       </div>
-      <div className='flex justify-center text-center m-2'><img src={resultPic} className='border-2 border-zinc-200' /></div>
-      <div className='flex justify-center text-center m-2'><p className='w-2/3 text-lg text-zinc-200'>{about}</p></div>      
+      <div className='flex justify-center text-center m-2'><img src={resultPic} className='border-2 border-zinc-200 text-zinc-200' alt='If this picture does not appear, please request a new one!'/></div>
+      <div className='flex justify-center text-center m-2'><p className='w-2/3 text-lg text-zinc-200'>{resultDate}</p></div>
+      <div className='flex justify-center text-center m-2'><p className='w-2/3 text-lg text-zinc-200'>{about}</p></div>
     </div>
   )
 }
